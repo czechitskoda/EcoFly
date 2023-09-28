@@ -331,6 +331,17 @@ function animate() {
     } else if(cloudBlink && blinkCounter > 20){
       cloudBlink = false;
       blinkCounter = 0;
+      switch(cloudPicked){
+        case 1:
+          cloud1.visible = false;
+          break;
+        case 2:
+          cloud2.visible = false;
+          break;
+        case 3:
+          cloud3.visible = false;
+          break;
+      }
       answerHandler(cloudPicked)
     }
 
