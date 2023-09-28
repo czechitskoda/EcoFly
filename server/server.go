@@ -99,7 +99,7 @@ func SendByIndex(c *fiber.Ctx) error {
     return c.JSON("end")
   }
   formatted := FormatQuestion(id)
-  log.Println(utils.Format("0:255:0", formatted.Title))
+  log.Println(utils.Format("0:0:255", formatted.Title))
   return c.JSON(formatted)
 }
 
@@ -116,7 +116,7 @@ func Correct(c *fiber.Ctx) error {
       log.Println(utils.Format("0:255:0", "User answered correct"))
     } else {
       SetScore(c)
-      log.Println(utils.Format("0:255:0", "User answered incorrect"))
+      log.Println(utils.Format("255:0:0", "User answered incorrect"))
     }
     return c.JSON(FAns{Correct: correct, Bad: incorrect})
   }

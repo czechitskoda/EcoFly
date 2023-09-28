@@ -31,6 +31,23 @@ scene.add(rimLight2);
 
 scene.background = new THREE.Color(0x9EE4E4);
 
+// music background
+const listener = new THREE.AudioListener();
+const audioLoader = new THREE.AudioLoader();
+const ambientMusic = new THREE.Audio(listener);
+audioLoader.load('bcg_music.mp3', function(buffer) {
+  ambientMusic.setBuffer(buffer);
+  ambientMusic.setLoop(true);
+  ambientMusic.setVolume(0.5);
+});
+
+let musicplay = false;
+document.addEventListener('click', () => {
+  if(!musicplay){
+    musicplay = true;
+  ambientMusic.play();}
+});
+
 let mouseY = 0;
 document.addEventListener('mousemove', (event) => {
     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
