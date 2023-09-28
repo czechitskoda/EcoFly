@@ -98,7 +98,9 @@ func SendByIndex(c *fiber.Ctx) error {
   if id == len(questions) {
     return c.JSON("end")
   }
-  return c.JSON(FormatQuestion(id))
+  formatted := FormatQuestion(id)
+  log.Println(utils.Format("0:255:0", formatted.Title))
+  return c.JSON(formatted)
 }
 
 func Correct(c *fiber.Ctx) error {
@@ -111,8 +113,10 @@ func Correct(c *fiber.Ctx) error {
     incorrect := q.Incorrect
     if answer == int64(correct) {
       UpdateScore(c, 1)
+      log.Println(utils.Format("0:255:0", "User answered correct"))
     } else {
       SetScore(c)
+      log.Println(utils.Format("0:255:0", "User answered incorrect"))
     }
     return c.JSON(FAns{Correct: correct, Bad: incorrect})
   }
@@ -144,6 +148,24 @@ func Write(c *fiber.Ctx) error {
   q.Correct = int(intCorrect) 
   utils.Write(q, db)
   return c.JSON("OK")
+}
+
+func WriteForm(c *fiber.Ctx) error {
+  title := c.FormValue("title")
+  correct := c.FormValue("correct")
+  ansA := c.FormValue("a")  
+  ansB := c.FormValue("b")  
+  ansC := c.FormValue("c")  
+  intCorrect, _ := strconv.ParseInt(correct, 0, 0)
+
+  q := utils.Question{}
+  q.Title = title
+  q.A = ansA
+  q.B = ansB
+  q.C = ansC
+  q.Correct = int(intCorrect) 
+  utils.Write(q, db)
+  return c.Redirect("/form")
 }
 
 func Register(c *fiber.Ctx) error {
@@ -188,6 +210,7 @@ func Listen() {
 
 
   app.Post("/api/questions", Write)
+  app.Post("/api/questions/form", WriteForm)
 
   app.Get("/api/questions/length", SendLength)
   app.Get("/api/questions", SendAll)
@@ -205,10 +228,15 @@ func Listen() {
     return c.Render("login", nil)
   })
 
-
   app.Get("/register", func(c *fiber.Ctx) error {
     return c.Render("register", nil)
   })
+
+  app.Get("/form", func(c *fiber.Ctx) error {
+    return c.Render("post", nil)
+  })
+
+
 
   app.Listen(":5526")
 }

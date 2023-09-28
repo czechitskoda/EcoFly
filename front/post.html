@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <form action="/api/questions/form" method="post">
+     <input type="text" name="title" placeholder="Enter a title">
+     <input type="text" name="a" placeholder="Enter A">
+     <input type="text" name="b" placeholder="Enter B">
+     <input type="text" name="c" placeholder="Enter C">
+     <input type="text" name="correct" placeholder="Enter the correct answer (0,1,2)">
+     <input type="submit" value="Submit"> 
+    </form>
+  
+  </body>
+<style>
+  form {
+    display: grid;
+    justify-content: center;
+    gap: 1em;
+    grid-template-columns: 1fr 1fr;
+  }
+  input {
+    padding: 20px;
+  }
+</style>
+</html>
